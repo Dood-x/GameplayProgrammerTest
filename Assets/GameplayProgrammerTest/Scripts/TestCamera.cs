@@ -31,9 +31,6 @@ public class TestCamera : MonoBehaviour
         y -= yDelta * rotationSpeed * distance * Time.deltaTime;
 
         y = Mathf.Clamp(y, -10.0f, 60.0f);
-
-        Debug.Log(yDelta);
-
     }
 
     void LateUpdate()
