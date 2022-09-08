@@ -93,7 +93,7 @@ public class TestCharacterController : MonoBehaviour
         if (isJumping)
         {
             jumpVelocity = jumpSpeed * Time.deltaTime;
-            Debug.Log(animator.GetCurrentAnimatorStateInfo(0).IsName("InAir"));
+            //Debug.Log(animator.GetCurrentAnimatorStateInfo(0).IsName("InAir"));
             //isJumping = !animator.GetCurrentAnimatorStateInfo(0).IsName("InAir");
             moveDirection.y = jumpVelocity;
         }
