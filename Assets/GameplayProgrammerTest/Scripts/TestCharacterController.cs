@@ -40,12 +40,15 @@ public class TestCharacterController : MonoBehaviour
     public LayerMask GroundLayers;
     private bool isGrounded = false;
     private bool isJumping = false;
+    private bool isFreeFall = false;
    
 
     public float jumpSpeed = 20.0f;
     private float jumpVelocity;
     private float gravitySpeed;
     public float gravity = -20.0f;
+
+    private int jumpCount = 0;
 
     /// <summary>
     /// Zipline
@@ -72,6 +75,11 @@ public class TestCharacterController : MonoBehaviour
         playerMovementState = PlayerMovementState.Walking;
     }
 
+    //void FixedUpdate()
+    //{
+    //    CheckGround();
+    //}
+
     // Update is called once per frame
     void Update()
 	{
@@ -97,6 +105,10 @@ public class TestCharacterController : MonoBehaviour
 
         bool jumpInput = Input.GetButtonDown("Jump");
         animator.SetBool("Jump", jumpInput);
+        if(jumpInput)
+        {
+            jumpCount++;
+        }
 
         // get the animator to animate movement or go back to idle
 
@@ -125,37 +137,45 @@ public class TestCharacterController : MonoBehaviour
         smoothCharacterTurning = Quaternion.Slerp(transform.rotation, turnDirection, TurnSpeed * Time.deltaTime);
         transform.rotation = smoothCharacterTurning;
 
+        CheckGround();
+
+        if (isGrounded)
+        {
+            gravitySpeed = 0;
+            // reset jump
+            if(jumpCount > 0)
+            {
+                isJumping = false;
+                jumpCount = 0;
+            }
+        }
+        else
+        {
+            jumpCount = 1;
+            // speed = a * t * t;
+            gravitySpeed += gravity * Time.deltaTime * Time.deltaTime;
+        }
+
+        
 
         ///JUMPING
         // the character is boosting up in the air
         if (isJumping)
         {
             jumpVelocity = jumpSpeed * Time.deltaTime;
-            //Debug.Log(animator.GetCurrentAnimatorStateInfo(0).IsName("InAir"));
-            //isJumping = !animator.GetCurrentAnimatorStateInfo(0).IsName("InAir");
-            moveDirection.y = jumpVelocity;
+            moveDirection.y += jumpVelocity;
         }
-        // apply gravity to vertical movement when off the ground
 
-        if (isGrounded)
-        {
-            gravitySpeed = 0;
-        }
-        else
-        {
-            // speed = a * t * t;
-            gravitySpeed += gravity * Time.deltaTime * Time.deltaTime;
-        }
+        // apply gravity to vertical movement when off the ground
         moveDirection.y += gravitySpeed;
 
-        if (moveDirection.y < 0f)
-        {
-            isJumping = false;
-        }
+        isFreeFall = !isGrounded && moveDirection.y <= 0;
 
+        animator.SetBool("FreeFall", isFreeFall);
+
+        
         cc.Move(moveDirection);
-        //animator.SetBool("Moving", movementMagnitude > 0.1 ? true : false);
-
+       
     }
     void Zipline()
     {
@@ -172,17 +192,20 @@ public class TestCharacterController : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
+    void CheckGround()
     {
         // set sphere position, with offset
-        isGrounded = Physics.CheckSphere(groundCheck.position, GroundRadius, GroundLayers, QueryTriggerInteraction.Ignore);
+        float spherecastRadius = cc.radius * 0.90f;
+        float spherecastDistance = cc.bounds.extents.y - spherecastRadius + 0.05f;
+        RaycastHit outHit;
+        isGrounded = Physics.SphereCast(transform.position + cc.center, spherecastRadius, Vector3.down, out outHit, spherecastDistance, GroundLayers, QueryTriggerInteraction.Ignore);
 
         // update animator if using character
         if (animator)
         {
             animator.SetBool("Grounded", isGrounded);
-            animator.SetBool("FreeFall", !isGrounded && moveDirection.y == 0);
         }
+
     }
 
     private void OnFootstep(AnimationEvent animationEvent)
@@ -259,6 +282,10 @@ public class TestCharacterController : MonoBehaviour
         {
             ziplineScript.Handle.transform.parent = localzipBody.transform;
         }
+
+        //reset jump
+        isJumping = false;
+        jumpCount = 0;
 
     }
 
