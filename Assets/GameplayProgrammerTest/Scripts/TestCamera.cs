@@ -47,9 +47,9 @@ public class TestCamera : MonoBehaviour
 
         Vector3 newPosition = Vector3.SmoothDamp(this.transform.position, targetPosition, ref velocityCamSmooth, smoothSpeed);
 
-        this.transform.position = newPosition;
+        transform.position = newPosition;
 
-        //smoothLookAt = Vector3.Lerp(smoothLookAt, lookAt.position, lookSpeed * Time.deltaTime);
-        transform.LookAt(lookAt.position);
+        smoothLookAt = Vector3.Lerp(smoothLookAt, lookAt.position, lookSpeed * Time.deltaTime);
+        transform.LookAt(smoothLookAt);
     }
 }
