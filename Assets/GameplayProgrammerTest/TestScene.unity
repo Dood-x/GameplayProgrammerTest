@@ -804,6 +804,82 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 28}
   m_Pivot: {x: 0.5, y: 1}
+--- !u!1 &78209903
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 78209904}
+  - component: {fileID: 78209906}
+  - component: {fileID: 78209905}
+  m_Layer: 0
+  m_Name: StartPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &78209904
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 78209903}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1, y: 2.317, z: 0.375}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1591533515}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &78209905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 78209903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3274afede69d2c6458f5b96dc8a2218e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collisionEvents:
+  - unityEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 398393217}
+          m_TargetAssemblyTypeName: TestCharacterController, Assembly-CSharp
+          m_MethodName: StartZipline
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 1591533509}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    triggeringObjects: []
+    triggeringTags:
+    - Player
+--- !u!135 &78209906
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 78209903}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.25
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &102639240
 GameObject:
   m_ObjectHideFlags: 0
@@ -1182,7 +1258,7 @@ GameObject:
   - component: {fileID: 116850765}
   - component: {fileID: 116850764}
   - component: {fileID: 116850763}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2481,8 +2557,6 @@ GameObject:
   - component: {fileID: 186299067}
   - component: {fileID: 186299066}
   - component: {fileID: 186299065}
-  - component: {fileID: 186299064}
-  - component: {fileID: 186299063}
   m_Layer: 0
   m_Name: Handle
   m_TagString: Untagged
@@ -2504,50 +2578,6 @@ Transform:
   m_Father: {fileID: 1591533515}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &186299063
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 186299061}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3274afede69d2c6458f5b96dc8a2218e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  collisionEvents:
-  - unityEvent:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 398393217}
-          m_TargetAssemblyTypeName: TestCharacterController, Assembly-CSharp
-          m_MethodName: StartZipline
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 1591533509}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-    triggeringObjects: []
-    triggeringTags:
-    - Player
---- !u!135 &186299064
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 186299061}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.25
-  m_Center: {x: 0, y: 0.025000095, z: -0.049999952}
 --- !u!64 &186299065
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -4026,8 +4056,8 @@ MonoBehaviour:
     m_Bits: 512
   jumpSpeed: 15
   gravity: -20
-  ziplineSpeed: 40
-  ziplineAttachementPoint: {fileID: 0}
+  ziplineSpeed: 200
+  ziplineAttachementPoint: {fileID: 1767503644}
 --- !u!143 &398393218
 CharacterController:
   m_ObjectHideFlags: 0
@@ -4807,7 +4837,7 @@ GameObject:
   - component: {fileID: 533785156}
   - component: {fileID: 533785155}
   - component: {fileID: 533785154}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8831,7 +8861,7 @@ GameObject:
   - component: {fileID: 1129157411}
   - component: {fileID: 1129157410}
   - component: {fileID: 1129157409}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11888,8 +11918,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc627efddba178e4ab95c8cb2b6001bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ziplineStart: {fileID: 186299062}
+  ziplineStart: {fileID: 78209904}
   ziplineDestination: {fileID: 921449830}
+  Handle: {fileID: 186299061}
 --- !u!64 &1591533511
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -12421,6 +12452,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 186299062}
+  - {fileID: 78209904}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -13638,6 +13670,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1751993492}
   m_CullTransparentMesh: 1
+--- !u!1 &1767503643
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1767503644}
+  m_Layer: 0
+  m_Name: ZiplineSocket
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1767503644
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1767503643}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.964, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 543450653335459988}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &1791680107
 Mesh:
   m_ObjectHideFlags: 0
@@ -14860,7 +14922,7 @@ GameObject:
   - component: {fileID: 2131128987}
   - component: {fileID: 2131128986}
   - component: {fileID: 2131128985}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15344,13 +15406,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132149418017326}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 7, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8729224428627237937}
   - {fileID: 1576387214136092282}
   - {fileID: 430283482}
   - {fileID: 1924206427}
+  - {fileID: 1767503644}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
