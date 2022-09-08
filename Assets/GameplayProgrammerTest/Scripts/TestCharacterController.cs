@@ -29,6 +29,7 @@ public class TestCharacterController : MonoBehaviour
 
     public AudioClip LandingAudioClip;
     public AudioClip[] FootstepAudioClips;
+    public ParticleSystem landingDustPrticle;
 
     private Quaternion smoothCharacterTurning;
 
@@ -208,6 +209,8 @@ public class TestCharacterController : MonoBehaviour
 
     }
 
+   
+
     private void OnFootstep(AnimationEvent animationEvent)
     {
         if (animationEvent.animatorClipInfo.weight > 0.5f)
@@ -225,6 +228,13 @@ public class TestCharacterController : MonoBehaviour
         if (animationEvent.animatorClipInfo.weight > 0.5f)
         {
             AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(cc.center), 0.5f);
+        }
+
+        if(landingDustPrticle)
+        {
+            ParticleSystem newParticles = Instantiate(landingDustPrticle);
+            newParticles.transform.position = transform.position + ( Vector3.down * (cc.bounds.extents.y - cc.radius - 0.2f)) ;
+            newParticles.Play();
         }
     }
 
