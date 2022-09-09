@@ -7,6 +7,9 @@ project made with Unity 2021.3.5f1
 All self made files are in GameplayProgrammerTest folder under Assets, other folders are downloaded and not mine <br>
 All scripts in the folder are created from scratch
 
+Upon opening the project the TestScene in GameplayProgrammer test should be loaded, otherwise load it, and hit play.
+Alternatively theres a Build in the BUILD folder.
+
 ### Controls
 - WASD / left stick - walk/run
 - mouse / right stick - camera movement
