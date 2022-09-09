@@ -34,7 +34,7 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown("joystick button 13"))
+        if(Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown("joystick button 7"))
         {
             if (IsPaused())
                 Resume();
