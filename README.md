@@ -8,10 +8,10 @@ All self made files are in GameplayProgrammerTest folder under Assets, other fol
 All scripts in the folder are created from scratch
 
 ### Controls
-WASD / left stick - walk/run
-mouse / right stick - camera movement
-Space / X/A - jump (controller configurations might differ - this uses joystick button 0 and 2)
-ESC / start - pause menu
+- WASD / left stick - walk/run
+- mouse / right stick - camera movement
+- Space / X/A - jump (controller configurations might differ - this uses joystick button 0 and 2)
+- ESC / start - pause menu
 
 ### Features
 
