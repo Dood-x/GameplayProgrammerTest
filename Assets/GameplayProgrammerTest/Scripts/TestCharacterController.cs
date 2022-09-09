@@ -8,7 +8,7 @@ public class TestCharacterController : MonoBehaviour
     public enum PlayerMovementState
     {
         Walking,
-        Zipline,
+        Zipline
     }
 
     public enum HurtBoxState
@@ -51,7 +51,8 @@ public class TestCharacterController : MonoBehaviour
    
 
     public float jumpSpeed = 20.0f;
-    private float jumpVelocity;
+    private Vector3 jumpVector;
+    private Vector3 jumpVelocity;
     private float gravitySpeed;
     public float gravity = -20.0f;
 
@@ -125,7 +126,7 @@ public class TestCharacterController : MonoBehaviour
         movementMagnitude = Mathf.Max(Mathf.Abs(h), Mathf.Abs(v));
 
 
-        bool jumpInput = Input.GetButtonDown("Jump");
+        bool jumpInput = Input.GetButtonDown("Jump") /*|| Input.GetKeyDown(KeyCode.Joystick1Button0)*/;
         animator.SetBool("Jump", jumpInput);
         if(jumpInput)
         {
@@ -184,8 +185,8 @@ public class TestCharacterController : MonoBehaviour
         // the character is boosting up in the air
         if (isJumping)
         {
-            jumpVelocity = jumpSpeed * Time.deltaTime;
-            moveDirection.y += jumpVelocity;
+            jumpVelocity = jumpVector * Time.deltaTime;
+            moveDirection += jumpVelocity;
         }
 
         // apply gravity to vertical movement when off the ground
@@ -208,7 +209,9 @@ public class TestCharacterController : MonoBehaviour
         ziplineDirection.Normalize();
         Rigidbody zipBody = localZiplineBody.GetComponent<Rigidbody>() as Rigidbody;
         zipBody.AddForce(ziplineDirection * Time.fixedDeltaTime * ziplineSpeed, ForceMode.Acceleration);
-        if (Vector3.Distance(localZiplineBody.transform.position, ziplineScript.ziplineDestination.transform.position) < 0.5f)
+        bool arrivedAtDestination = Vector3.Distance(localZiplineBody.transform.position, ziplineScript.ziplineDestination.transform.position) < 0.5f;
+        bool jumpInput = Input.GetButtonDown("Jump");
+        if (arrivedAtDestination || jumpInput)
         {
             StopZipline();
         }
@@ -262,9 +265,10 @@ public class TestCharacterController : MonoBehaviour
     // called in animation when character is off the ground
     void Leap()
     {
-        jumpVelocity = jumpSpeed * Time.deltaTime;
+        jumpVector = Vector3.up * jumpSpeed;
+        jumpVelocity = jumpVector * Time.deltaTime;
         moveDirection = Vector3.zero;
-        moveDirection.y = jumpVelocity;
+        moveDirection += jumpVelocity;
 
         cc.Move(moveDirection);
 
@@ -318,6 +322,8 @@ public class TestCharacterController : MonoBehaviour
         isJumping = false;
         jumpCount = 0;
 
+        hurtBoxState = HurtBoxState.Invincible;
+
     }
 
     public void StopZipline()
@@ -339,7 +345,8 @@ public class TestCharacterController : MonoBehaviour
         localZiplineBody = null;
         cc.enabled = true;
 
-        
+        hurtBoxState = HurtBoxState.Normal;
+
     }
 
     IEnumerator DamageTakenCooldown()
@@ -360,7 +367,7 @@ public class TestCharacterController : MonoBehaviour
         }
         meshRenderer.enabled = true;
     }
-
+    
     public void Death()
     {
         transform.position = PlayerSingleton.instance.spawnPoint.position;
@@ -392,8 +399,17 @@ public class TestCharacterController : MonoBehaviour
 
         StartCoroutine("DamageTakenAnimation");
         StartCoroutine("DamageTakenCooldown");
+
+        Vector3 direction = transform.position - enemy.transform.position;
+        direction.y = 0;
+        direction.Normalize();
+
+
+        isJumping = true;
+        jumpVector = (Vector3.up * (jumpSpeed / 2f)) + (direction * jumpSpeed / 2f);
+        //Debug.DrawLine(transform.position + Vector3.up * 0.9f, transform.position + Vector3.up * 0.9f + direction * 2.0f, Color.blue, 4f);
+        //Debug.Log(jumpVector);
     }
-    // hurtbox trigger
 
     public void SetHeath(float newHealth)
     {

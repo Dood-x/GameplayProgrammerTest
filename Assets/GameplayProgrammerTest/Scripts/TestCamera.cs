@@ -27,6 +27,17 @@ public class TestCamera : MonoBehaviour
         xDelta = Input.GetAxis("Mouse X") + Input.GetAxis("RightStickX");
         yDelta = Input.GetAxis("Mouse Y") + Input.GetAxis("RightStickY");
 
+        if(Input.GetAxis("RightStickX") != 0f)
+        {
+            xDelta *= 0.5f;
+        }
+
+        if (Input.GetAxis("RightStickY") != 0f)
+        {
+            yDelta *= 0.5f;
+        }
+
+
         x += xDelta * rotationSpeed * distance * Time.deltaTime;
         y -= yDelta * rotationSpeed * distance * Time.deltaTime;
 
