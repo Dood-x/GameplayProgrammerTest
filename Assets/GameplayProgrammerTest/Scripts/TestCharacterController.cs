@@ -8,7 +8,13 @@ public class TestCharacterController : MonoBehaviour
     public enum PlayerMovementState
     {
         Walking,
-        Zipline
+        Zipline,
+    }
+
+    public enum HurtBoxState
+    {
+        Normal,
+        Invincible
     }
 
     private Animator animator;
@@ -66,6 +72,15 @@ public class TestCharacterController : MonoBehaviour
     private GameObject localZiplineBody;
 
 
+    /// <summary>
+    /// HEALTH
+    /// </summary>
+    public float MaxHealth= 100.0f;
+    private float health;
+    private HurtBoxState hurtBoxState;
+    public float hitInvincibilityDuration = 2f;
+    public float hitAnimationInterval = 0.5f;
+
     // Start is called before the first frame update
     void Start()
 	{
@@ -74,6 +89,12 @@ public class TestCharacterController : MonoBehaviour
 		cam = Camera.main;
         cc = GetComponent<CharacterController>();
         playerMovementState = PlayerMovementState.Walking;
+        hurtBoxState = HurtBoxState.Normal;
+
+        health = MaxHealth;
+
+        PlayerSingleton.instance.HealthBar.maxValue = MaxHealth;
+        PlayerSingleton.instance.HealthBar.value = health;
     }
 
     //void FixedUpdate()
@@ -320,5 +341,67 @@ public class TestCharacterController : MonoBehaviour
 
         
     }
+
+    IEnumerator DamageTakenCooldown()
+    {
+        hurtBoxState = HurtBoxState.Invincible;
+        yield return new WaitForSeconds(hitInvincibilityDuration);
+        hurtBoxState = HurtBoxState.Normal;
+    }
+
+    IEnumerator DamageTakenAnimation()
+    {
+        SkinnedMeshRenderer meshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+        hurtBoxState = HurtBoxState.Invincible;
+        while (hurtBoxState == HurtBoxState.Invincible)
+        {
+            meshRenderer.enabled = !meshRenderer.enabled;
+            yield return new WaitForSeconds(hitAnimationInterval);
+        }
+        meshRenderer.enabled = true;
+    }
+
+    public void Death()
+    {
+        transform.position = PlayerSingleton.instance.spawnPoint.position;
+        transform.rotation = PlayerSingleton.instance.spawnPoint.rotation;
+        SetHeath(MaxHealth);
+    }
+
+    public void TakeDamage(GameObject enemy)
+    {
+        //Debug.Log("takedamage");
+        if (hurtBoxState == HurtBoxState.Invincible) return;
+
+        TestEnemyController enemyController = enemy.GetComponent<TestEnemyController>();
+        if(enemyController == null)
+        {
+            return;
+        }
+
+        SetHeath(health - enemyController.attackpower);
+        
+        enemyController.Rest();
+
+        if(health <= 0.0f)
+        {
+            Death();
+            return;
+        }
+
+
+        StartCoroutine("DamageTakenAnimation");
+        StartCoroutine("DamageTakenCooldown");
+    }
+    // hurtbox trigger
+
+    public void SetHeath(float newHealth)
+    {
+        health = newHealth;
+        health = Mathf.Clamp(health, 0.0f, MaxHealth);
+
+        PlayerSingleton.instance.HealthBar.value = health;
+    }
+   
 }
 
