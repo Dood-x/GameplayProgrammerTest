@@ -1,4 +1,4 @@
-# GameplayProgrammerTest
+# UnityExampleProject
 
 - A quick unity test with a bunch of basic features.
 
